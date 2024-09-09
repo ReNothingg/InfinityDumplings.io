@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="language" content="EN">
+        <meta name="description" content="A Web Clicker Game">
+        <meta name="keywords" content="Game,Games,HTML,Online,Clicker">
+        <meta name="author" content="Hunter Parcells">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msapplication-TileColor" content="#FFFFFF">
+        <meta name="msapplication-TileImage" content="images/icons/favicon-144.png">
+        <meta name="msapplication-config" content="images/icons/browserconfig.xml">
+        
+        <link rel="shortcut icon" href="images/icons/favicon.ico">
+        <link rel="icon" sizes="16x16 32x32 64x64" href="images/icons/favicon.ico">
+        
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/material.css">
+        <link rel="stylesheet" href="css/w3.css">
+        <link rel="stylesheet" href="css/iconfamilyMaterialIcons.css">
+        <link rel="stylesheet" href="css/material.light_blue-indigo.min.css">
+
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+        
+        <title>InfinityDumplings</title>
+    </head>
+    
+    <body>
+        <div id="game">
+            <h1>Infinity Dumplings</h1>
+
+            <hr>
+
+            <h3 id="clickCount">Dumplings: 0</h3>
+            <button id="clicker" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                +1 Dumplings
+            </button>
+
+            <hr>
+
+            <div id="shop">
+                <h3>Shop</h3>
+                <h5 id="allMaxed" style="display: none">All Upgrades Maxed!</h5>
+
+                <div class="mdl-grid">
+                    <div class="mdl-layout-spacer"></div>
+
+                    <div id="perClickCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet">
+                        <div id="perClickCardImage" class="mdl-card__title"></div>
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="perClickCardTitle">Per Dumplings (Lvl. 1)</h3>
+                            <p>Increases the amount of dumplings you get per dumplings.</p>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="perClickCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('perClick')">Buy (50 Dumplings)</a>
+                        </div>
+                    </div>
+
+                    <div id="perClickSpacer" class="mdl-layout-spacer"></div>
+
+                    <div id="clickBombCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet">
+                        <div id="clickBombCardImage" class="mdl-card__title"></div>
+
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="clickBombCardTitle">Dumplings Bomb (Lvl. 1)</h3>
+                            <p>A bomb that gives off a burst of dumplings every five seconds.</p>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="clickBombCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('clickBomb')">Buy (100 Dumplings)</a>
+                        </div>
+                    </div>
+                    <div id="clickBombSpacer" class="mdl-layout-spacer"></div>
+
+                    <div id="clickFactoryCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet">
+                        <div id="clickFactoryCardImage" class="mdl-card__title"></div>
+
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="clickFactoryCardTitle">Dumplings Factory (Lvl. 1)</h3>
+                            <p>A factory that gives off a large burst of dumplings every 20 seconds.</p>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="clickFactoryCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('clickFactory')">Buy (1000 Dumplings)</a>
+                        </div>
+                    </div>
+                    <div id="clickFactorySpacer" class="mdl-layout-spacer"></div>
+
+                    <div id="clickMinerCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet">
+                        <div id="clickMinerCardImage" class="mdl-card__title"></div>
+
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="clickMinerCardTitle">Dumplings Miner (Lvl. 1)</h3>
+                            <p>Gives a random amount of clicks between a certain maximum and minimum amount of dumplings every ten seconds.</p>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="clickMinerCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('clickMiner')">Buy (1000 Dumplings)</a>
+                        </div>
+                    </div>
+                    <div id="clickMinerSpacer" class="mdl-layout-spacer"></div>
+
+                    <div id="autoClickerCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
+                        <div id="autoClickerCardImage" class="mdl-card__title"></div>
+
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="autoClickerCardTitle">Auto Clicker (Lvl. 1)</h3>
+                            <p>A constant stream of dumplings that never stops!</p>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="autoClickerCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('autoClicker')">Buy (2500 Dumplings)</a>
+                        </div>
+                    </div>
+                    <div id="autoClickerSpacer" class="mdl-layout-spacer"></div>
+
+                    <div id="clickPortalCard" class="shopCard card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
+                        <div id="clickPortalCardImage" class="mdl-card__title"></div>
+
+                        <div class="mdl-card__supporting-text">
+                            <h3 id="clickPortalCardTitle">Dumplings Portal (Lvl. 1)</h3>
+                            <p>A magical portal that somehow gives you dumplings.</p>
+                        </div>
+
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a id="clickPortalCardPrice" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="buy('clickPortal')">Buy (5000 Dumplings)</a>
+                        </div>
+                    </div>
+                    <div id="clickPortalSpacer" class="mdl-layout-spacer"></div>
+                </div>
+            </div>
+
+            <div id="cases">
+                <h3>Cases</h3>
+                <h5 id="noCases">No Cases Yet!</h5>
+
+                <div id="caseList" class="mdl-grid">
+                    <div class="mdl-layout-spacer"></div>
+                </div>
+            </div>
+
+            <span>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="showStats()">Stats</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="showSettings()">Settings</button>
+
+                <br><br>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="saveGame()">Overwrite Save</button>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button mdl-color--red-600" onclick="deleteSave()">Delete Save</button>
+            </span>
+
+            <div id="caseDialog" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <h3 id="openingCaseTitle">Opening Case</h3>
+                        <h5 id="youGot" style="display: none">You Got</h5>                      
+                        <p id="theItem"></p>
+                        
+                        <button id="caseOkay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="display: none">Okay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="statsDialog" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <h3>Stats</h3>           
+                        <p id="highestClicks"></p>
+                        <p id="totalClicks"></p>
+                        <p id="upgradesBought"></p>
+                        <p id="casesOpened"></p>
+
+                        <button id="statsOkay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Okay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settingsDialog" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <h3>Settings</h3>                        
+                        <div class="setting">
+                            <h5>Click Sound:</h5> 
+                            <select id="clickSounds" class="w3-select"></select>
+
+                            <h5>Mobile Sounds</h5>
+                            <p>Due to the way mobile browser work, sounds will lag the game <b>a lot</b>. This has not been tested on all devices, but by default, there are no sounds on mobile unless enabled.</p>
+                            <label id="mobileSounds" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mobileSoundsCheckbox">
+                                <input type="checkbox" id="mobileSoundsCheckbox" class="mdl-checkbox__input">
+                                <span class="mdl-checkbox__label">Enable</span>
+                            </label>
+                        </div>
+
+                        <button id="settingsSave" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="deleteSaveDialog" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <h3>Delete Save?</h3>                      
+                        <p><u><b>Are you sure</b></u> you want to delete your save? This will reload the page after.</p>
+                        <p>This will delete all game progress including stats.</p>
+
+                        <button id="yesDelete" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button mdl-color--red-600">Yes</button>
+                        <button id="noDelete" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+                <div class="mdl-snackbar__text"></div>
+                <button class="mdl-snackbar__action" type="button"></button>
+            </div>
+        </div>
+
+        <script src="js/click-handler.js"></script>
+        <script src="js/upgrade-handler.js"></script>
+        <script src="js/sound-handler.js"></script>
+        <script src="js/util.js"></script>
+        <script src="js/save-handler.js"></script>
+        <script src="js/load.js"></script>
+        <script src="js/stats.js"></script>
+        <script src="js/case-handler.js"></script>
+        <script src="js/settings-handler.js"></script>
+
+        <script src="js/upgrades/per-click.js"></script>
+        <script src="js/upgrades/click-bomb.js"></script>
+        <script src="js/upgrades/click-factory.js"></script>
+        <script src="js/upgrades/click-miner.js"></script>
+        <script src="js/upgrades/auto-clicker.js"></script>
+        <script src="js/upgrades/click-portal.js"></script>
+
+        <script src="js/cases/sound-case.js"></script>
+        <script src="js/cases/click-case.js"></script>
+
+        <script>
+            function setFullHeight() {
+              document.body.style.height = `${window.innerHeight}px`;
+            }
+        
+            window.addEventListener('resize', setFullHeight);
+            window.addEventListener('load', setFullHeight);
+          </script>
+    </body>
+</html>
