@@ -1,58 +1,256 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity Dumplings</title>
-    <style>
-        @font-face {
-            font-family: 'MyCustomFont';
-            src: url('assets/font/deledda/Deledda Open Light.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: url('assets/image/background.png') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'MyCustomFont', Arial, sans-serif;
-        }
-
-        header {
-            position: absolute;
-            top: 20px;
-            color: white;
-            font-size: 50px;
-            font-family: 'MyCustomFont', Arial, sans-serif;
-        }
-
-        .image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        img {
-            max-width: 60%;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#0e1220" />
+  <title>Hamster Clicker — analog</title>
+  <link rel="icon" href="elements/logo.svg" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-    <header>Infinity Dumplings</header>
+  <div id="app">
 
-    <div class="image-container">
-        <img src="assets/image/icon.png" alt="Описание изображения">
+    <header class="topbar">
+      <div class="brand">
+        <img src="elements/logo.svg" alt="Logo" class="brand__logo" />
+        <div class="brand__title">
+          <div class="title">Hamster Clicker</div>
+          <div class="subtitle">аналог</div>
+        </div>
+      </div>
+
+      <div class="balances">
+        <div class="balance" title="Монеты">
+          <img src="elements/icons/coin.svg" alt="coin" />
+          <span id="coinsText">0</span>
+        </div>
+        <div class="balance" title="Кристаллы">
+          <img src="elements/icons/gem.svg" alt="gem" />
+          <span id="gemsText">0</span>
+        </div>
+        <div class="balance" title="Энергия">
+          <img src="elements/icons/energy.svg" alt="energy" />
+          <span id="energyText">0/0</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="screens">
+
+      <!-- Экран Тап -->
+      <section id="screen-tap" class="screen active">
+        <div class="tap-zone">
+          <div class="hamster-wrap">
+            <button id="tapButton" class="hamster-btn" aria-label="Тапай!">
+              <img src="elements/hamster.png" alt="hamster" class="hamster-img" />
+              <div id="critSpark" class="crit-spark" hidden>CRIT!</div>
+            </button>
+            <div class="tap-info">
+              <div class="tap-power">
+                +<span id="tapPowerText">1</span> за тап
+              </div>
+              <div class="multipliers" id="multipliersBox">
+                <span class="badge badge--x2" id="x2Badge" hidden>Доход х2</span>
+                <span class="badge badge--turbo" id="turboBadge" hidden>Турбо</span>
+                <span class="badge badge--auto" id="autoBadge" hidden>Автоклик</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="energy-wrap">
+            <div class="energy-bar">
+              <div id="energyFill" class="energy-fill" style="width:0%"></div>
+            </div>
+            <div class="energy-meta">
+              <span>Энергия:</span>
+              <strong id="energyMetaText">0/0</strong>
+              <span class="dot">•</span>
+              <span id="regenText">+0/сек</span>
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat__label">Пассивный доход</div>
+              <div class="stat__value"><span id="passiveText">0</span>/сек</div>
+            </div>
+            <div class="stat">
+              <div class="stat__label">Уровень</div>
+              <div class="stat__value">Lv <span id="levelText">1</span></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Экран Бизнес (апгрейды) -->
+      <section id="screen-business" class="screen">
+        <div class="tabs">
+          <button class="tab active" data-tab="tab-tap">Тап</button>
+          <button class="tab" data-tab="tab-passive">Пассивный доход</button>
+        </div>
+        <div class="tab-content">
+          <div id="tab-tap" class="tab-pane active">
+            <div id="upgradesTap" class="cards"></div>
+          </div>
+          <div id="tab-passive" class="tab-pane">
+            <div id="upgradesPassive" class="cards"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Экран Бусты -->
+      <section id="screen-boosts" class="screen">
+        <div class="cards">
+          <div class="card boost">
+            <div class="card__icon">
+              <img src="elements/icons/boost_x2.png" alt="x2" />
+            </div>
+            <div class="card__body">
+              <div class="card__title">Доход х2</div>
+              <div class="card__desc">Удваивает весь доход на 10 минут.</div>
+              <div class="card__meta">
+                <span class="price"><img src="elements/icons/gem.svg" /> 20</span>
+                <button class="btn" data-boost="x2">Активировать</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card boost">
+            <div class="card__icon">
+              <img src="elements/icons/boost_turbo.png" alt="turbo" />
+            </div>
+            <div class="card__body">
+              <div class="card__title">Турбо энергия</div>
+              <div class="card__desc">Без расхода энергии 30 секунд.</div>
+              <div class="card__meta">
+                <span class="price"><img src="elements/icons/gem.svg" /> 12</span>
+                <button class="btn" data-boost="turbo">Активировать</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card boost">
+            <div class="card__icon">
+              <img src="elements/icons/boost_auto.png" alt="auto" />
+            </div>
+            <div class="card__body">
+              <div class="card__title">Автоклик</div>
+              <div class="card__desc">20 кликов/сек в течение 60 секунд.</div>
+              <div class="card__meta">
+                <span class="price"><img src="elements/icons/gem.svg" /> 15</span>
+                <button class="btn" data-boost="auto">Активировать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Экран Задания -->
+      <section id="screen-quests" class="screen">
+        <div class="cards" id="questsList"></div>
+
+        <div class="daily">
+          <h3>Ежедневная награда</h3>
+          <div class="daily__wrap">
+            <div id="dailyInfo" class="daily__info">Готово к получению</div>
+            <button id="dailyClaimBtn" class="btn">Забрать</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Экран Профиль -->
+      <section id="screen-profile" class="screen">
+        <div class="profile-cards">
+
+          <div class="card">
+            <div class="card__title">Статистика</div>
+            <div class="stats-list">
+              <div class="row"><span>Всего тапов:</span><strong id="statTaps">0</strong></div>
+              <div class="row"><span>Криты:</span><strong id="statCrits">0</strong></div>
+              <div class="row"><span>Заработано всего:</span><strong id="statEarned">0</strong></div>
+              <div class="row"><span>Потрачено:</span><strong id="statSpent">0</strong></div>
+              <div class="row"><span>В игре времени:</span><strong id="statTime">0c</strong></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__title">Настройки</div>
+            <div class="settings">
+              <label class="switch">
+                <input type="checkbox" id="soundToggle" checked />
+                <span>Звук</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="vibrateToggle" checked />
+                <span>Вибрация</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="motionToggle" />
+                <span>Меньше анимаций</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__title">Сохранение</div>
+            <div class="save-tools">
+              <button id="exportBtn" class="btn">Экспорт</button>
+              <button id="importBtn" class="btn btn--ghost">Импорт</button>
+              <button id="resetBtn" class="btn btn--danger">Сброс</button>
+            </div>
+            <small class="note">Сохранение выполняется автоматически (localStorage).</small>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <nav class="tabbar">
+      <button class="tabbar__btn active" data-screen="screen-tap">
+        <img src="elements/icons/tap.svg" alt="" /><span>Тап</span>
+      </button>
+      <button class="tabbar__btn" data-screen="screen-business">
+        <img src="elements/icons/business.svg" alt="" /><span>Бизнес</span>
+      </button>
+      <button class="tabbar__btn" data-screen="screen-boosts">
+        <img src="elements/icons/boosts.svg" alt="" /><span>Бусты</span>
+      </button>
+      <button class="tabbar__btn" data-screen="screen-quests">
+        <img src="elements/icons/tasks.svg" alt="" /><span>Задания</span>
+      </button>
+      <button class="tabbar__btn" data-screen="screen-profile">
+        <img src="elements/icons/profile.svg" alt="" /><span>Профиль</span>
+      </button>
+    </nav>
+
+    <!-- Модалки и подсказки -->
+    <div id="toast" class="toast"></div>
+
+    <div id="modalOverlay" class="modal-overlay" hidden>
+      <div class="modal">
+        <div class="modal__header">
+          <div class="modal__title" id="modalTitle">Заголовок</div>
+          <button class="modal__close" id="modalClose">
+            <img src="elements/icons/close.svg" alt="x"/>
+          </button>
+        </div>
+        <div class="modal__body" id="modalBody"></div>
+        <div class="modal__footer" id="modalFooter"></div>
+      </div>
     </div>
-</body>
 
+  </div>
+
+  <!-- Звуки -->
+  <audio id="sClick" src="elements/sounds/click.mp3" preload="auto"></audio>
+  <audio id="sUpgrade" src="elements/sounds/upgrade.mp3" preload="auto"></audio>
+  <audio id="sCash" src="elements/sounds/cash.mp3" preload="auto"></audio>
+  <audio id="sBoost" src="elements/sounds/boost.mp3" preload="auto"></audio>
+  <audio id="sUi" src="elements/sounds/ui.mp3" preload="auto"></audio>
+
+  <script src="script.js" defer></script>
+</body>
 </html>
